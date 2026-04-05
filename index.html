@@ -1,38 +1,40 @@
-<!doctype html>
-<html>
-<head>
-<style>
-html { font-family: sans-serif; }
-#linkElem {
-  position: absolute;
-  top: 320px;
-  left: calc(50vw - 115px);
-  width: 230px;
-  text-align: center;
-  font-size: 1.5em;
-}
-</style>
-</head>
-<body>
-<h1>Web Share over browser UI, short window</h1>
-<p>Opens popup which receives activation on second click which then shows share UI over address bar/browser UI, makes it seem like background tab is origin since popup origin and window controls are covered</p>
-<a id="linkElem" href="#">Click twice to go to Example.com</a>
-<script>
-linkElem.addEventListener('click', (e) => {
-  e.preventDefault();
-  var topPos = 200 + window.screenTop;
-  var popupWidth = 340;
-  var leftPos = (window.innerWidth / 2) - (popupWidth / 2) + window.screenLeft;
-  window.open(
-    'share-shortwin-popup.html',
-    'test',
-    'width='+popupWidth+',height=340,top='+topPos+',left='+leftPos
-  );
+<div id="qdiv">
+</div>
 
-  setTimeout(() => {
-    window.location = 'https://example.com';
-  }, 100);
-});
+<script>
+    drop = (e) => {
+        if (e.dataTransfer.files.length > 0) {
+            let read = new FileReader();
+
+            read.readAsBinaryString((red = e.dataTransfer.files[0]));
+
+            document.body.innerHTML += "<b>" + red.name + "</b> size:" + red.size + "<br>";
+
+            read.onloadend = function () {
+                var afile = document.createElement("textarea");
+                afile.style = "height: 215px; width: 386px;";
+                afile.value = read.result;
+                document.body.appendChild(afile);
+            };
+
+        } else {
+            document.body.innerHTML = "No file detected";
+        }
+    };
+
+    function q(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    dropbox = document.body;
+    dropbox.addEventListener("dragenter", q, false);
+    dropbox.addEventListener("dragover", q, false);
+    dropbox.addEventListener("drop", drop, false);
+
+    qimg.ondragstart = e => {
+        e.dataTransfer.effectAllowed = 'all';
+
+        console.dir(e.dataTransfer);
+    }
+
 </script>
-</body>
-</html>
