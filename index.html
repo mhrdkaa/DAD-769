@@ -1,40 +1,35 @@
-<div id="qdiv">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secret Photo Album</title>
+</head>
+<body>
+
+<h1>Secret Photo Album</h1>
+<div id="login">
+    <p>Login required to view secret images.</p>
+    <button onclick="login()">Login</button>
+</div>
+<div id="content" style="display:none;">
+    <p>Welcome! Here's your secret image:</p>
+    <img id="secretImg" src="secret.jpg" width="300">
 </div>
 
 <script>
-    drop = (e) => {
-        if (e.dataTransfer.files.length > 0) {
-            let read = new FileReader();
+function login() {
+    document.cookie = "auth=1; path=/";
+    location.reload();
+}
 
-            read.readAsBinaryString((red = e.dataTransfer.files[0]));
+function isLoggedIn() {
+    return document.cookie.includes("auth=1");
+}
 
-            document.body.innerHTML += "<b>" + red.name + "</b> size:" + red.size + "<br>";
-
-            read.onloadend = function () {
-                var afile = document.createElement("textarea");
-                afile.style = "height: 215px; width: 386px;";
-                afile.value = read.result;
-                document.body.appendChild(afile);
-            };
-
-        } else {
-            document.body.innerHTML = "No file detected";
-        }
-    };
-
-    function q(e) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
-    dropbox = document.body;
-    dropbox.addEventListener("dragenter", q, false);
-    dropbox.addEventListener("dragover", q, false);
-    dropbox.addEventListener("drop", drop, false);
-
-    qimg.ondragstart = e => {
-        e.dataTransfer.effectAllowed = 'all';
-
-        console.dir(e.dataTransfer);
-    }
-
+if (isLoggedIn()) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("content").style.display = "block";
+}
 </script>
+
+</body>
+</html>
